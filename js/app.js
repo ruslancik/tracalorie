@@ -69,7 +69,7 @@ const ItemCtrl = (function(){
             })
 
             data.totalCalories = total;
-            
+
             return data.totalCalories;
         }
     }
@@ -188,6 +188,7 @@ const App = (function(UICtrl, ItemCtrl){
 
         // Get calories calculate and give the result
         const totalCalories = ItemCtrl.getTotalCalories();
+        
         // Show the result of total calıres on UI
         UICtrl.showTotalCalories(totalCalories);
 
@@ -209,6 +210,11 @@ const App = (function(UICtrl, ItemCtrl){
             UICtrl.populateItemList(items);
             }
 
+            // Get calories calculate and give the result
+            const totalCalories = ItemCtrl.getTotalCalories();
+            
+            // Show the result of total calıres on UI
+            UICtrl.showTotalCalories(totalCalories);
 
             // Load event listeners
             loadEventListeners();
