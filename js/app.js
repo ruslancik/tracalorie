@@ -71,6 +71,26 @@ const ItemCtrl = (function(){
             data.totalCalories = total;
 
             return data.totalCalories;
+        },
+
+        getCurrentItem : function(){
+            return data.currentItem;
+        },
+
+
+        getItemId : function(id){
+            let found = null;
+
+            data.items.forEach(function(item){
+                if(item.id === id){
+                    found = item;
+                }
+            })
+            return found;
+        },
+
+        setCurrentItem : function(item){
+            data.currentItem = item;
         }
     }
 
@@ -144,6 +164,13 @@ const UICtrl = (function(){
             document.querySelector(UISelector.itemCaloriesInput).value = '';
         },
 
+        addItemToForm : function(){
+            document.querySelector(UISelector.itemNameInput).value = ItemCtrl.getCurrentItem().name;
+            document.querySelector(UISelector.itemCaloriesInput).value = ItemCtrl.getCurrentItem().calories;
+            UICtrl.showEditState();
+
+        },
+
         hidelist : function(){
             document.querySelector(UISelector.itemsList).style.display = 'none';
         },
@@ -156,6 +183,14 @@ const UICtrl = (function(){
             document.querySelector(UISelector.deleteBtn).style.display = 'none';
             document.querySelector(UISelector.backBtn).style.display = 'none';
             document.querySelector(UISelector.addBtn).style.display = 'inline';
+
+        },
+
+        showEditState : function(){
+            document.querySelector(UISelector.updateBtn).style.display = 'inline';
+            document.querySelector(UISelector.deleteBtn).style.display = 'inline';
+            document.querySelector(UISelector.backBtn).style.display = 'inline';
+            document.querySelector(UISelector.addBtn).style.display = 'none';
 
         },
         showTotalCalories : function(totalCaloriesResult){
@@ -217,6 +252,12 @@ const App = (function(UICtrl, ItemCtrl){
 
             // Get id from split array
             const id = parseInt(listIDArr[1]);
+
+            const ItemToEdit = ItemCtrl.getItemId(id);
+
+            ItemCtrl.setCurrentItem(ItemToEdit);
+
+            UICtrl.addItemToForm();
 
         }
       
