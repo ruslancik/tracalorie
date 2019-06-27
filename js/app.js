@@ -86,6 +86,9 @@ const UICtrl = (function(){
     const UISelector = {
         itemsList : '#item-list',
         addBtn : '.add-btn',
+        updateBtn : '.update-btn',
+        deleteBtn : '.delete-btn',
+        backBtn : '.back-btn',
         itemNameInput : '#item-name',
         itemCaloriesInput : '#item-calories' ,
         totalCalories : '.total-calories'
@@ -148,6 +151,13 @@ const UICtrl = (function(){
         getSelectors : function(){
             return UISelector;
         },
+        clearEditState : function(){
+            document.querySelector(UISelector.updateBtn).style.display = 'none';
+            document.querySelector(UISelector.deleteBtn).style.display = 'none';
+            document.querySelector(UISelector.backBtn).style.display = 'none';
+            document.querySelector(UISelector.addBtn).style.display = 'inline';
+
+        },
         showTotalCalories : function(totalCaloriesResult){
             document.querySelector(UISelector.totalCalories).textContent = totalCaloriesResult;
         }
@@ -167,6 +177,8 @@ const App = (function(UICtrl, ItemCtrl){
         // Add item event
         document.querySelector(UISelector.addBtn).addEventListener
         ('click', itemAddSubmit);
+        //Edit icon click selector
+        document.querySelector(UISelector.itemsList).addEventListener('click', itemUpdateSubmit);
 
 
     }
@@ -195,10 +207,29 @@ const App = (function(UICtrl, ItemCtrl){
         e.preventDefault();
     }
 
+    const itemUpdateSubmit = function(e){
+        if(e.target.classList.contains('edit-item')){
+            // Get list item id (item-0, item-1)
+            const listID = e.target.parentNode.parentNode.id;
+            
+            //Break into array
+            const listIDArr = listID.split('-');
+
+            // Get id from split array
+            const id = parseInt(listIDArr[1]);
+
+        }
+      
+      
+        e.preventDefault();
+    }
+
 
     //Public methods
     return {
         init : function(){
+            // Clear input button state
+            UICtrl.clearEditState();
             // Fetch items from data structure
             const items = ItemCtrl.getItems();
 
